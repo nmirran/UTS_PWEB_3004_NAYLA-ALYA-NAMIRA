@@ -60,9 +60,13 @@ $percent_notstarted = $count_total > 0 ? round(($count_notstarted / $count_total
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+    body { font-family: 'Poppins', sans-serif; }
+    </style>
 </head>
-<div class="flex min-h-screen bg-gray-100 text-gray-800">
-    <div class="w-64 bg-[#F2A2A2] text-gray-800 flex flex-col justify-between shadow-lg">
+<div class="flex min-h-screen bg-pink-50 text-gray-800">
+    <div class="w-64 bg-pink-200 text-gray-800 flex flex-col justify-between shadow-lg">
         <div>
             <div class="text-center py-6 border-b border-pink-300/40">
                 <div class="h-16 w-16 mx-auto bg-white rounded-full shadow-md overflow-hidden">
@@ -72,19 +76,19 @@ $percent_notstarted = $count_total > 0 ? round(($count_notstarted / $count_total
                 <p class="text-sm text-gray-700"><?php echo $user['email']; ?></p>
             </div>
             <nav class="mt-6 space-y-2">
-                <a href="dashboard.php" class="flex items-center px-6 py-2 rounded-md bg-white text-gray-900 font-semibold shadow-sm"> Dashboard</a>
-                <a href="tasks.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium">My Task</a>
-                <a href="categories.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium">Task Categories</a>
-                <a href="accountinfo.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium">Account Info</a>
+                <a href="dashboard.php" class="flex items-center px-6 py-2 rounded-md bg-pink-500 text-white font-semibold shadow-sm"> Dashboard</a>
+                <a href="tasks.php" class="flex items-center px-6 py-2 rounded-md hover:bg-pink-300 transition font-medium">My Task</a>
+                <a href="categories.php" class="flex items-center px-6 py-2 rounded-md hover:bg-pink-300 transition font-medium">Task Categories</a>
+                <a href="accountinfo.php" class="flex items-center px-6 py-2 rounded-md hover:bg-pink-300 transition font-medium">Account Info</a>
+                <a href="logout.php" class="flex items-center px-6 py-4 hover:bg-pink-400 transition font-semibold border-t border-pink-300/40 text-gray-800">Logout</a>
             </nav>
         </div>
-        <a href="logout.php" class="flex items-center px-6 py-4 hover:bg-[#e87474] transition font-semibold border-t border-pink-300/40">Logout</a>
     </div>
 
         <!-- MAIN CONTENT -->
         <div class="flex-1 p-8 overflow-y-auto">
             <div class="flex justify-between items-center">
-                <h1 class="text-3xl font-bold">Welcome back, <?php echo $user['username']; ?> 👋</h1>
+                <h1 class="text-3xl font-bold text-pink-600">Welcome back, <?php echo $user['username']; ?> 👋</h1>
                 <p id="datetime" class="text-gray-500"></p>
             </div>
 
@@ -94,7 +98,7 @@ $percent_notstarted = $count_total > 0 ? round(($count_notstarted / $count_total
                 <div class="col-span-2 bg-white p-6 rounded-2xl shadow-md">
                     <div class="flex items-center justify-between mb-4">
                         <h2 class="text-xl font-semibold mb-4">To-Do</h2>
-                        <a href="addtask.php" class="inline-flex items-center gap-2 px-4 py-2 bg-[#F2A2A2] text-white rounded-lg hover:bg-[#f48c8c] transition-all duration-200 shadow-sm">
+                        <a href="addtask.php" class="inline-flex items-center gap-2 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-all duration-200 shadow-sm">
                             <span class="text-lg font-bold">+</span> Add Task
                         </a>
                     </div>

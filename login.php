@@ -55,10 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="password" name="password" placeholder="Enter Password" required
           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-300 outline-none">
 
-        <div class="flex items-center justify-between text-sm text-gray-600">
-          <label><input type="checkbox" class="mr-1"> Remember me</label>
-        </div>
-
         <button type="submit"
           class="w-full bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-lg transition duration-200">
           Login

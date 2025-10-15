@@ -69,26 +69,14 @@ $subcat_query->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Task</title>
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f9fafb;
-        }
-
-        /* Smooth fade-in for popup */
-        .fade-in {
-            display: none;
-        }
+    body { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
-<body class="flex items-center justify-center h-screen bg-black/40">
+<body class="flex items-center justify-center min-h-screen bg-black/40 py-10 overflow-y-auto">
 
 <div id="taskModal" class="fade-in bg-white rounded-2xl shadow-2xl w-[600px] p-8 relative">
     <div class="flex justify-between items-center mb-6">

@@ -21,7 +21,7 @@ $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-// Ambil nama kategori (buat tampilan)
+// Ambil nama kategori
 $stmt = $conn->prepare("SELECT name FROM categories WHERE id = ? AND user_id = ?");
 $stmt->bind_param("ii", $category_id, $user_id);
 $stmt->execute();
@@ -36,9 +36,9 @@ if (isset($_POST['add_subcategory'])) {
         $stmt = $conn->prepare("INSERT INTO subcategories (name, category_id, created_at) VALUES (?, ?, NOW())");
         $stmt->bind_param("si", $name, $category_id);
         if ($stmt->execute()) {
-            $message = "✅ Subkategori berhasil ditambahkan!";
+            $message = "Subkategori berhasil ditambahkan!";
         } else {
-            $message = "❌ Gagal menambahkan subkategori: " . $conn->error;
+            $message = "Gagal menambahkan subkategori: " . $conn->error;
         }
         $stmt->close();
     } else {
@@ -51,46 +51,27 @@ if (isset($_POST['add_subcategory'])) {
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Add Subcategory</title>
+    <title>Tambah Subkategori</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
 
-<div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <div class="w-64 bg-[#F2A2A2] text-gray-800 flex flex-col justify-between shadow-lg">
-        <div>
-            <div class="text-center py-6 border-b border-pink-300/40">
-                <div class="h-16 w-16 mx-auto bg-white rounded-full shadow-md overflow-hidden">
-                    <img src="assets/images/user.jpg" class="h-16 w-16 rounded-full object-cover" alt="User Avatar">
-                </div>
-                <h2 class="mt-3 font-semibold text-lg"><?php echo htmlspecialchars($user['username']); ?></h2>
-                <p class="text-sm text-gray-700"><?php echo htmlspecialchars($user['email']); ?></p>
-            </div>
-            <nav class="mt-6 space-y-2">
-                <a href="dashboard.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium"> Dashboard</a>
-                <a href="tasks.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium">My Task</a>
-                <a href="categories.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium">Task Categories</a>
-                <a href="accountinfo.php" class="flex items-center px-6 py-2 rounded-md hover:bg-[#f48c8c] transition font-medium">Account Info</a>
-            </nav>
-        </div>
-        <a href="logout.php" class="flex items-center px-6 py-4 hover:bg-[#e87474] transition font-semibold border-t border-pink-300/40">Logout</a>
-    </div>
+<body class="min-h-screen bg-gradient-to-b from-pink-100 via-white to-pink-50 text-gray-800 flex">
 
     <!-- Main Content -->
-    <main class="flex-1 p-10">
-        <div class="bg-white shadow-lg rounded-xl p-8 max-w-xl mx-auto">
-            <h1 class="text-2xl font-bold text-gray-800 mb-2">Tambah Subkategori</h1>
-            <p class="text-gray-600 mb-6">Untuk kategori: 
-                <span class="font-semibold text-[#f48c8c]">
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg border border-pink-100">
+            <h1 class="text-3xl font-bold text-pink-600 mb-2 text-center">Tambah Subkategori</h1>
+            <p class="text-gray-600 mb-6 text-center">
+                Untuk kategori: <span class="font-semibold text-pink-500">
                     <?php echo htmlspecialchars($category['name'] ?? '(Tidak ditemukan)'); ?>
                 </span>
             </p>
 
             <?php if ($message): ?>
-                <div class="mb-4 p-3 rounded-md text-white 
-                    <?php echo (str_starts_with($message, '✅')) ? 'bg-green-500' : 'bg-red-500'; ?>">
+                <div id="alertBox" class="mb-5 text-center px-4 py-3 rounded-lg font-medium 
+                    <?php echo (str_contains($message, 'berhasil')) ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-red-100 text-red-700 border border-red-300'; ?>">
                     <?php echo $message; ?>
                 </div>
             <?php endif; ?>
@@ -98,25 +79,31 @@ if (isset($_POST['add_subcategory'])) {
             <form method="POST">
                 <input type="hidden" name="category_id" value="<?php echo htmlspecialchars($category_id); ?>">
 
-                <label class="block mb-2 font-semibold">Nama Subkategori</label>
+                <label class="block mb-2 font-semibold text-gray-700">Nama Subkategori</label>
                 <input type="text" name="name" required
-                    class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-[#F2A2A2]">
+                    class="w-full border border-pink-300 rounded-lg px-4 py-2 mb-5 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition">
 
                 <div class="flex justify-between items-center">
                     <a href="categories.php"
-                       class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition">
+                       class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition font-medium">
                         ← Kembali
                     </a>
                     <button type="submit" name="add_subcategory"
-                            class="bg-[#F2A2A2] hover:bg-[#f48c8c] text-white px-4 py-2 rounded-lg shadow transition">
+                            class="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg font-semibold shadow-md transition">
                         Tambah Subkategori
                     </button>
                 </div>
             </form>
         </div>
     </main>
-</div>
 
+    <script>
+        // Hilangkan alert otomatis setelah 2.5 detik
+        $(document).ready(() => {
+            setTimeout(() => {
+                $("#alertBox").fadeOut(600);
+            }, 2500);
+        });
+    </script>
 </body>
 </html>
-

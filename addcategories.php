@@ -52,7 +52,7 @@ if (isset($_POST['add_subcategory'])) {
 }
 
 // =====================
-//  AMBIL SEMUA KATEGORI UNTUK DITAMPILKAN
+//  AMBIL SEMUA KATEGORI
 // =====================
 $sql = "
     SELECT c.id AS category_id, c.name AS category_name, 
@@ -83,24 +83,93 @@ while ($row = $result->fetch_assoc()) {
 $stmt->close();
 ?>
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kategori & Subkategori</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-pink-100 via-white to-pink-50 flex items-center justify-center py-10">
 
-<h3>Tambah Kategori Baru</h3>
-<form method="POST">
-    <input type="text" name="category_name" placeholder="Nama kategori" required>
-    <button type="submit" name="add_category">Tambah</button>
-</form>
+<div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl p-8 relative">
+    <h1 class="text-3xl font-bold text-pink-600 mb-6 text-center">Kelola Kategori</h1>
 
-<?php if (!empty($categories)): ?>
-    <h3>Tambah Subkategori</h3>
-    <form method="POST">
-        <select name="category_id" required>
-            <option value="">-- Pilih kategori --</option>
-            <?php foreach ($categories as $id => $cat): ?>
-                <option value="<?php echo $id; ?>"><?php echo htmlspecialchars($cat['name']); ?></option>
-            <?php endforeach; ?>
-        </select>
-        <input type="text" name="subcategory_name" placeholder="Nama subkategori" required>
-        <button type="submit" name="add_subcategory">Tambah</button>
-    </form>
-<?php endif; ?>
+    <?php if ($message): ?>
+        <div id="alertBox" class="mb-5 bg-pink-100 border border-pink-300 text-pink-700 px-4 py-3 rounded-lg text-center">
+            <?= htmlspecialchars($message) ?>
+        </div>
+    <?php endif; ?>
 
+    <!-- FORM TAMBAH KATEGORI -->
+    <div class="mb-8">
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">Tambah Kategori Baru</h3>
+        <form method="POST" class="flex gap-3 items-center">
+            <input type="text" name="category_name" placeholder="Nama kategori"
+                class="flex-1 border border-pink-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400"
+                required>
+            <button type="submit" name="add_category"
+                class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-4 py-2 rounded-lg transition">
+                Tambah
+            </button>
+        </form>
+    </div>
+
+    <!-- FORM TAMBAH SUBKATEGORI -->
+    <?php if (!empty($categories)): ?>
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">Tambah Subkategori</h3>
+            <form method="POST" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <select name="category_id" required
+                    class="col-span-1 border border-pink-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                    <option value="">-- Pilih kategori --</option>
+                    <?php foreach ($categories as $id => $cat): ?>
+                        <option value="<?= $id; ?>"><?= htmlspecialchars($cat['name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <input type="text" name="subcategory_name" placeholder="Nama subkategori" required
+                    class="col-span-1 border border-pink-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                <button type="submit" name="add_subcategory"
+                    class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-4 py-2 rounded-lg transition">
+                    Tambah
+                </button>
+            </form>
+        </div>
+    <?php endif; ?>
+
+    <!-- LIST KATEGORI & SUB -->
+    <?php if (!empty($categories)): ?>
+        <div class="mt-10">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Daftar Kategori</h3>
+            <div class="space-y-4">
+                <?php foreach ($categories as $cat): ?>
+                    <div class="bg-pink-50 border border-pink-200 rounded-xl p-4 shadow-sm">
+                        <h4 class="text-pink-700 font-semibold"><?= htmlspecialchars($cat['name']); ?></h4>
+                        <?php if (!empty($cat['subs'])): ?>
+                            <ul class="list-disc list-inside text-gray-700 mt-2">
+                                <?php foreach ($cat['subs'] as $sub): ?>
+                                    <li><?= htmlspecialchars($sub); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <p class="text-gray-500 text-sm italic mt-1">Belum ada subkategori</p>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
+<script>
+    // Notifikasi hilang otomatis
+    $(document).ready(function() {
+        setTimeout(() => {
+            $("#alertBox").fadeOut(600);
+        }, 2500);
+    });
+</script>
+
+</body>
+</html>
